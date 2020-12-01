@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# Getting Started with Coding Challenge - Users Hierarchy
 
 ### `git clone https://github.com/ferhat-hajdarpasic/oohmedia.git`
 
