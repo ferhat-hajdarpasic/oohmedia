@@ -23,7 +23,8 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 `SELECT avg(salary) FROM employees where roleid = 2;`
 
 ### Query for hierarchy for a person with role name E.g. for id 1
-```select r.name, e.name from employees e
+```
+select r.name, e.name from employees e
 	join roles r on r.id = e.roleid 
 	where roleid in (
 		WITH RECURSIVE subroles AS (
@@ -35,4 +36,5 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 	        JOIN roles ON roles.parentId = subroles.id)
 		select distinct(subroles.id) from subroles
 		)
-	order by r.name;```
+	order by r.name;
+```
