@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const roles = [
+let roles = [
     {
         "Id": 1,
         "Name": "System Administrator",
@@ -50,7 +50,7 @@ const roles = [
     }
 ];
 
-const users = [
+let users = [
     {
         "Id": 1,
         "Name": "Adam Admin",
@@ -112,11 +112,42 @@ const subordinatedRoles = (parentRole) => {
     }
 };
 
+const findUser = (username) => {
+    return users.find(user => user.Name === username);
+};
+
+const findRole = (roleId) => {
+    console.log(`Role= ${JSON.stringify(roleId)}`);
+    return roles.find(role => role.Id == roleId);
+};
+
+const generateNextUserId = () => {
+    return Math.max(...users.map(user => user.Id)) + 1;
+};
+
+const addUser = (username, roleId) => {
+    console.log(`User= ${JSON.stringify(findUser(username))}`);
+    console.log(`Role= ${JSON.stringify(findRole(roleId))}`);
+    if(!findUser(username) && findRole(roleId)) {
+        users = [...users, {
+            "Id": generateNextUserId(),
+            "Name": username,
+            "Role": roleId
+    
+        }];
+        console.log(`Users= ${JSON.stringify(users)}`);
+    }
+};
+
 export default function App() {
     const classes = useStyles();
     const [hideData, setHideData] = React.useState(false);
     const [searchId, setSearchId] = React.useState("");
     const [hierarchy, setHierarchy] = React.useState([]);
+    const [username, setUsername] = React.useState("");
+    const [roleId, setRoleId] = React.useState("");
+    const [usernameError, setUsernameError] = React.useState(false);
+    const [roleError, setRoleError] = React.useState(false);
 
     return (
         <Fragment>
@@ -159,9 +190,21 @@ export default function App() {
 
                 <FormControl component="fieldset" className={classes.formControl}>
                     <Box display="flex" flexDirection="row" p={1} m={1} bgcolor="background.paper">
-                        <TextField id="outlined-basic" label="User Name" variant="outlined" />
-                        <TextField id="outlined-basic" label="Role Id" variant="outlined" style={{ marginLeft: "20px" }} />
-                        <Button variant="contained" color="primary" style={{ marginLeft: "20px" }}>
+                        <TextField value={username} label="User Name" variant="outlined" error={usernameError} helperText="Incorrect/Duplicate user name." onChange={e => setUsername(e.target.value)}/>
+                        <TextField value= {roleId} label="Role Id" variant="outlined" style={{ marginLeft: "20px" }} error={roleError} helperText="Incorrect role id." onChange={e => setRoleId(e.target.value)}/>
+                        <Button disabled = {!username || !roleId} variant="contained" color="primary" style={{ marginLeft: "20px" }} onClick={() => {
+                            setUsernameError(false);
+                            setRoleError(false);
+                            if(findUser(username)) {
+                                setUsernameError(true);
+                                return;
+                            }
+                            if(!findRole(roleId)) {
+                                setRoleError(true);
+                                return;
+                            }
+                            addUser(username, roleId)
+                        }} >
                             Add User
                     </Button>
                     </Box>
