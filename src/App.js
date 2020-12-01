@@ -203,10 +203,10 @@ export default function App() {
                     </Table>
                 </TableContainer>
 
-                <TableContainer hidden={hideData} component={Paper} style={{ marginLeft: "20px", marginBottom: "20px", width: "40%" }}>
+                <TableContainer id="rolesTable" hidden={hideData} component={Paper} style={{ marginLeft: "20px", marginBottom: "20px", width: "40%" }}>
                     <Typography hidden={hideData} className={classes.title} variant="h6" id="tableTitle" component="div">
                         Roles
-                </Typography>
+                    </Typography>
                     <Table className={classes.table} size="small" aria-label="a dense table">
                         <TableHead>
                             <TableRow>
