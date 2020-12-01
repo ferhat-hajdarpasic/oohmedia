@@ -117,8 +117,8 @@ export default function App() {
             <Box display="flex" flexDirection="column" p={1} m={1} bgcolor="background.paper">
                 <FormControl component="fieldset" className={classes.formControl}>
                     <Box display="flex" flexDirection="row" p={1} m={1} bgcolor="background.paper">
-                        <TextField id="outlined-basic" label="User Id" variant="outlined" onChange={e => setSearchId(e.target.value)} />
-                        <Button disabled={!searchId} variant="contained" color="primary" style={{ marginLeft: "20px" }} onClick={e => setHierarchy(extractHierarchy(searchId))}>
+                        <TextField id="textFieldUserId" label="User Id" variant="outlined" onChange={e => setSearchId(e.target.value)} />
+                        <Button id="buttonShowHierarchy" disabled={!searchId} variant="contained" color="primary" style={{ marginLeft: "20px" }} onClick={e => setHierarchy(extractHierarchy(searchId))}>
                             Show Hierarchy
                     </Button>
                     </Box>
@@ -128,7 +128,7 @@ export default function App() {
                     <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
                         Hierarchy
                 </Typography>
-                    <Table className={classes.table} size="small" aria-label="a dense table">
+                    <Table id="hierarchyTable" className={classes.table} size="small" aria-label="a dense table">
                         <TableHead>
                             <TableRow>
                                 <TableCell>Id</TableCell>
