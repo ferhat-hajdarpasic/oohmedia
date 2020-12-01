@@ -22,61 +22,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-let roles = [
-    {
-        "Id": 1,
-        "Name": "System Administrator",
-        "Parent": 0
-    },
-    {
-        "Id": 2,
-        "Name": "Location Manager",
-        "Parent": 1,
-    },
-    {
-        "Id": 3,
-        "Name": "Supervisor",
-        "Parent": 2,
-    },
-    {
-        "Id": 4,
-        "Name": "Employee",
-        "Parent": 3,
-    },
-    {
-        "Id": 5,
-        "Name": "Trainer",
-        "Parent": 3,
-    }
-];
-
-let users = [
-    {
-        "Id": 1,
-        "Name": "Adam Admin",
-        "Role": 1
-    },
-    {
-        "Id": 2,
-        "Name": "Emily Employee",
-        "Role": 4
-    },
-    {
-        "Id": 3,
-        "Name": "Sam Supervisor",
-        "Role": 3
-    },
-    {
-        "Id": 4,
-        "Name": "Mary Manager",
-        "Role": 2
-    },
-    {
-        "Id": 5,
-        "Name": "Trent Trainer",
-        "Role": 5
-    }
-];
+let roles = [];//require('./roles.json');
+let users = [];//require('./users.json');
 
 const extractHierarchy = (userId) => {
     const user = users.find(u => u.Id == userId);
@@ -141,13 +88,29 @@ const addUser = (username, roleId) => {
 
 export default function App() {
     const classes = useStyles();
-    const [hideData, setHideData] = React.useState(false);
+    const [hideData, setHideData] = React.useState(true);
     const [searchId, setSearchId] = React.useState("");
     const [hierarchy, setHierarchy] = React.useState([]);
     const [username, setUsername] = React.useState("");
     const [roleId, setRoleId] = React.useState("");
     const [usernameError, setUsernameError] = React.useState(false);
     const [roleError, setRoleError] = React.useState(false);
+
+    React.useEffect(() => {
+        fetch('https://ohhmedia.s3-ap-southeast-1.amazonaws.com/users.json')
+            .then(response => response.json())
+            .then(data => {
+                users = data;
+                console.log(`Got S3 users = ${JSON.stringify(users)}`)
+            });
+        fetch('https://ohhmedia.s3-ap-southeast-1.amazonaws.com/roles.json')
+            .then(response => response.json())
+            .then(data => {
+                roles = data;
+                console.log(`Got S3 roles = ${JSON.stringify(roles)}`);
+                setHideData(false);
+            });
+    }, []);
 
     return (
         <Fragment>
